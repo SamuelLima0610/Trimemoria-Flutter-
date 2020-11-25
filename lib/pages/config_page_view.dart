@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:trimemoria/tabs/TcpDevice.dart';
 import 'package:trimemoria/tabs/ThemeGame.dart';
 import 'package:trimemoria/models/DataModel.dart';
 
@@ -23,6 +24,14 @@ class ConfigPageView extends StatelessWidget {
               model: DataModel('https://rest-api-trimemoria.herokuapp.com/theme'),
               child: ThemeGame()
           ),
+        ),
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Configuration of dispositive"),
+            centerTitle: true,
+          ),
+          backgroundColor: Colors.white,
+          body: TcpDevice(),
         )
       ],
     );
