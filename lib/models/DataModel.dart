@@ -29,9 +29,9 @@ class DataModel extends Model {
           data
       );
     }
-    refresh();
+    print(resp.body);
     Map map = json.decode(resp.body);
-    print(map['data']);
+    refresh();
     return map['data'];
   }
 
@@ -57,7 +57,7 @@ class DataModel extends Model {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(data),
+        body: json.encode(data),
       );
     }
     else{
@@ -68,7 +68,7 @@ class DataModel extends Model {
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
-          body: jsonEncode(data),
+          body: json.encode(data),
         );
       }
       return null;
@@ -89,6 +89,7 @@ class DataModel extends Model {
   void change({int id}) async{
     edit = true;
     information = await _getDataById(id);
+    print(information);
     notifyListeners();
   }
 

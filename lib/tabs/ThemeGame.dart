@@ -32,7 +32,7 @@ class _ThemeGameState extends State<ThemeGame> {
                         TextFormField(
                           controller: _nameController,
                           decoration: InputDecoration(
-                              labelText: 'Nome',
+                              hintText: 'Nome',
                               labelStyle: TextStyle(color: Colors.blueAccent)
                           ),
                           // ignore: missing_return
@@ -46,7 +46,7 @@ class _ThemeGameState extends State<ThemeGame> {
                         TextFormField(
                           controller: _qntController,
                           decoration: InputDecoration(
-                              labelText: 'Quantidade',
+                              hintText: 'Quantidade',
                               labelStyle: TextStyle(color: Colors.blueAccent)
                           ),
                           // ignore: missing_return
@@ -146,7 +146,7 @@ class _ThemeGameState extends State<ThemeGame> {
   Widget makeTable(int size, List themes, DataModel model){
     var dts = DTS(themes, model,
         (index) async{
-          await model.change(id: themes[index]['id']);
+          model.change(id: themes[index]['id']);
           setState(() {
             _nameController.text = model.information['data']['name'];
             _qntController.text = model.information['data']['qntd'];
