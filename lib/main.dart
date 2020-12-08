@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:trimemoria/pages/config_page_view.dart';
-import 'package:trimemoria/tabs/OrganizationTagGame.dart';
+import 'package:trimemoria/tabs/ThemesImages.dart';
 
 import 'models/DataModel.dart';
 
@@ -25,13 +24,14 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
         ),
         backgroundColor: Colors.white,
-        body: ScopedModel(
-            model: DataModel('https://rest-api-trimemoria.herokuapp.com/configGame'),
-            child: OrganizationTagGame()
+        body: ScopedModel<DataModel>(
+            model: DataModel('https://rest-api-trimemoria.herokuapp.com/image'),
+            child: ThemesImages()
         ),
       ),
     );
   }
 }
+
 
 

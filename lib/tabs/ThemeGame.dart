@@ -146,7 +146,7 @@ class _ThemeGameState extends State<ThemeGame> {
   Widget makeTable(int size, List themes, DataModel model){
     var dts = DTS(themes, model,
         (index) async{
-          model.change(id: themes[index]['id']);
+          await model.change(id: themes[index]['id']);
           setState(() {
             _nameController.text = model.information['data']['name'];
             _qntController.text = model.information['data']['qntd'];
