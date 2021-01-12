@@ -4,6 +4,7 @@ import 'package:trimemoria/tabs/OrganizationTagGame.dart';
 import 'package:trimemoria/tabs/TcpDevice.dart';
 import 'package:trimemoria/tabs/ThemeGame.dart';
 import 'package:trimemoria/models/DataModel.dart';
+import 'package:trimemoria/tabs/ThemesImages.dart';
 
 // ignore: must_be_immutable
 class ConfigPageView extends StatelessWidget {
@@ -43,6 +44,17 @@ class ConfigPageView extends StatelessWidget {
           body: ScopedModel(
               model: DataModel('https://rest-api-trimemoria.herokuapp.com/configGame'),
               child: OrganizationTagGame()
+          ),
+        ),
+        Scaffold(
+          appBar: AppBar(
+            title: Text("Configuration of Theme's Image"),
+            centerTitle: true,
+          ),
+          backgroundColor: Colors.white,
+          body: ScopedModel(
+              model: DataModel('https://rest-api-trimemoria.herokuapp.com/image'),
+              child: ThemesImages()
           ),
         )
       ],

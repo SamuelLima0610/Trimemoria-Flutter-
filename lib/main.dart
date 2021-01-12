@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
-import 'package:trimemoria/tabs/ThemesImages.dart';
-
-import 'models/DataModel.dart';
+import 'package:trimemoria/pages/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,10 +21,7 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
         ),
         backgroundColor: Colors.white,
-        body: ScopedModel<DataModel>(
-            model: DataModel('https://rest-api-trimemoria.herokuapp.com/image'),
-            child: ThemesImages()
-        ),
+        body: Home(),
       ),
     );
   }
