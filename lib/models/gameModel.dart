@@ -1,14 +1,17 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:trimemoria/pages/game.dart';
+
 
 class GameModel extends Model{
 
   List cards;
   int cardsFlip = 0;
   List<Map<String,dynamic>> selectedCards = [];
+  StreamSocket streamSocket;
 
-  GameModel(this.cards);
+  GameModel({this.cards});
 
   void onFlip(Map<String,dynamic> card){
     card["isFlip"] = !card["isFlip"];
