@@ -13,23 +13,24 @@ class ConfigPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color orange = Color(0xFFFF8306);
     return PageView(
       controller: pageController,
       children: <Widget>[
         Scaffold(
           appBar: AppBar(
-            title: Text("Theme"),
+            title: Text("Theme",style: TextStyle(color: Colors.white),),
             centerTitle: true,
+            backgroundColor: orange,
           ),
-          backgroundColor: Colors.white,
           body: ScopedModel(
-              model: DataModel('https://rest-api-trimemoria.herokuapp.com/theme'),
+              model: DataModel('https://rest-api-trimemoria.herokuapp.com/config/themes'),
               child: ThemeGame()
           ),
         ),
         Scaffold(
           appBar: AppBar(
-            title: Text("Configuration of dispositive"),
+            title: Text("Configuration of dispositive",style: TextStyle(color: Colors.white)),
             centerTitle: true,
           ),
           backgroundColor: Colors.white,
@@ -37,23 +38,23 @@ class ConfigPageView extends StatelessWidget {
         ),
         Scaffold(
           appBar: AppBar(
-            title: Text("Configuration of Matrix Game"),
+            title: Text("Configuration of Matrix Game",style: TextStyle(color: Colors.white)),
             centerTitle: true,
           ),
           backgroundColor: Colors.white,
           body: ScopedModel(
-              model: DataModel('https://rest-api-trimemoria.herokuapp.com/configGame'),
+              model: DataModel('https://rest-api-trimemoria.herokuapp.com/config/configuration'),
               child: OrganizationTagGame()
           ),
         ),
         Scaffold(
           appBar: AppBar(
-            title: Text("Configuration of Theme's Image"),
+            title: Text("Configuration of Theme's Image",style: TextStyle(color: Colors.white)),
             centerTitle: true,
           ),
           backgroundColor: Colors.white,
           body: ScopedModel(
-              model: DataModel('https://rest-api-trimemoria.herokuapp.com/image'),
+              model: DataModel('https://rest-api-trimemoria.herokuapp.com/config/imageTheme'),
               child: ThemesImages()
           ),
         )

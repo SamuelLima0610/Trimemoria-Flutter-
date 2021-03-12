@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trimemoria/pages/design.dart';
 import 'package:trimemoria/pages/home.dart';
 
 void main() {
@@ -21,14 +22,7 @@ class _MyAppState extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Configuration of Matrix Game"),
-          centerTitle: true,
-        ),
-        backgroundColor: Colors.white,
-        body: Home(),
-      ),
+      home: Home(),
     );
   }
 

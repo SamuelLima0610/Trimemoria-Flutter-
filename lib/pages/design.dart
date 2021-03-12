@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:trimemoria/pages/config_game.dart';
-import 'package:trimemoria/pages/config_page_view.dart';
 
-class Home extends StatelessWidget {
-
+class Design extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width - 80;
     return Container(
-      color: Colors.white,//Color(0xFF272837),
+      color: Color(0xFF272837),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -16,18 +13,18 @@ class Home extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  "Trimemória",
-                  style: TextStyle(
+                    "Trimemória",
+                    style: TextStyle(
                       color: Color(0xFFFF8306),
                       decoration: TextDecoration.none
-                  ),
+                    ),
                 ),
                 Text(
-                  "Lenda",
-                  style: TextStyle(
-                    decoration: TextDecoration.none,
-                    color: Color(0xFFFF8306),
-                  ),
+                    "Lenda",
+                    style: TextStyle(
+                        decoration: TextDecoration.none,
+                        color: Color(0xFFFF8306),
+                    ),
                 )
               ],
             ),
@@ -35,21 +32,9 @@ class Home extends StatelessWidget {
               runSpacing: 16,
               children: [
                 modeButton("Jogar", "Teste sua memória", Icons.gamepad,
-                    Color(0xFFFF8306), width,(){
-                      Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => ConfigGame()
-                          )
-                      );
-                    }),
+                    Color(0xFFFF8306), width,(){}),
                 modeButton("Configurações", "Venha tematizar o seu jogo", Icons.build,
-                    Color(0xFFFF8306), width,(){
-                      Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => ConfigPageView()
-                          )
-                      );
-                    })
+                    Color(0xFFFF8306), width,(){})
               ],
             )
           ],
@@ -67,8 +52,8 @@ class Home extends StatelessWidget {
       child: Container(
         width: width,
         decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.all(Radius.circular(16))
+          color: color,
+          borderRadius: BorderRadius.all(Radius.circular(16))
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -82,10 +67,10 @@ class Home extends StatelessWidget {
                     title,
                     textAlign:  TextAlign.left,
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        decoration: TextDecoration.none,
-                        fontSize: 18.0
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      decoration: TextDecoration.none,
+                      fontSize: 18.0
                     ),
                   ),
                   Padding(
@@ -113,5 +98,4 @@ class Home extends StatelessWidget {
       ),
     );
   }
-
 }

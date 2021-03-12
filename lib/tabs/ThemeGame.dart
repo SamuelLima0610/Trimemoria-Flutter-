@@ -29,11 +29,16 @@ class _ThemeGameState extends State<ThemeGame> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
+                        SizedBox(
+                          height: 20.0,
+                        ),
                         TextFormField(
                           controller: _nameController,
                           decoration: InputDecoration(
                               hintText: 'Nome',
-                              labelStyle: TextStyle(color: Colors.blueAccent)
+                              labelStyle: TextStyle(
+                                  color: Colors.orange,
+                              )
                           ),
                           // ignore: missing_return
                           validator: (value){
@@ -41,7 +46,7 @@ class _ThemeGameState extends State<ThemeGame> {
                           },
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 20.0,
                         ),
                         TextFormField(
                           controller: _qntController,
@@ -55,62 +60,72 @@ class _ThemeGameState extends State<ThemeGame> {
                           },
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 30.0,
                         ),
                         SizedBox(
                           height: 45.0,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              RaisedButton(
-                                onPressed: () async {
-                                  if(_stateForm.currentState.validate()){
-                                    Map<String,dynamic> data ={
-                                      "name": _nameController.text,
-                                      "qntd": _qntController.text
-                                    };
-                                    String answer = await model.insert(data: data);
-                                    final snackBar = SnackBar(
-                                      content: Text(
-                                          answer
-                                      ),
-                                      duration: Duration(seconds: 5),
-                                    );
-                                    Scaffold.of(context).showSnackBar(snackBar);
-                                  }
-                                },
-                                color: Colors.blueAccent,
-                                child: Text(
-                                    !model.toEdit() ? 'Salvar' : "Editar",
-                                    style: TextStyle(color: Colors.white,fontSize: 22.0)
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFFF8306),
+                                    borderRadius: BorderRadius.all(Radius.circular(16))
                                 ),
-                              ),
-                              RaisedButton(
-                                onPressed: () async {
-                                  if(!model.toEdit()){
-                                    setState(() {
-                                      _nameController.text = '';
-                                      _qntController.text = '';
-                                    });
-                                    model.refresh();
-                                  }else{
-                                    if(_stateForm.currentState.validate()) {
-                                      String answer = await model.destroy();
+                                child: TextButton(
+                                  onPressed: () async {
+                                    if(_stateForm.currentState.validate()){
+                                      Map<String,dynamic> data ={
+                                        "name": _nameController.text,
+                                        "qntd": _qntController.text
+                                      };
+                                      String answer = await model.insert(data: data);
                                       final snackBar = SnackBar(
                                         content: Text(
                                             answer
                                         ),
                                         duration: Duration(seconds: 5),
                                       );
-                                      Scaffold.of(context).showSnackBar(
-                                          snackBar);
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                     }
-                                  }
-                                },
-                                color: Colors.blueAccent,
-                                child: Text(
-                                    model.toEdit() ? "Excluir" : 'Limpar',
-                                    style: TextStyle(color: Colors.white,fontSize: 22.0)
+                                  },
+                                  child: Text(
+                                      !model.toEdit() ? 'Salvar' : "Editar",
+                                      style: TextStyle(color: Colors.white,fontSize: 22.0)
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFFF8306),
+                                  borderRadius: BorderRadius.all(Radius.circular(16))
+                                ),
+                                child: TextButton(
+                                  onPressed: () async {
+                                    if(!model.toEdit()){
+                                      setState(() {
+                                        _nameController.text = '';
+                                        _qntController.text = '';
+                                      });
+                                      model.refresh();
+                                    }else{
+                                      if(_stateForm.currentState.validate()) {
+                                        String answer = await model.destroy();
+                                        final snackBar = SnackBar(
+                                          content: Text(
+                                              answer
+                                          ),
+                                          duration: Duration(seconds: 5),
+                                        );
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                            snackBar);
+                                      }
+                                    }
+                                  },
+                                  child: Text(
+                                      model.toEdit() ? "Excluir" : 'Limpar',
+                                      style: TextStyle(color: Colors.white,fontSize: 22.0)
+                                  ),
                                 ),
                               )
                             ],
