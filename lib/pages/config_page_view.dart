@@ -30,7 +30,10 @@ class ConfigPageView extends StatelessWidget {
         ),
         Scaffold(
           appBar: AppBar(
-            title: Text("Configuration of dispositive",style: TextStyle(color: Colors.white)),
+            title: Text("Configuration of dispositive",
+                style: TextStyle(color: Colors.white)
+            ),
+            backgroundColor: orange,
             centerTitle: true,
           ),
           backgroundColor: Colors.white,
@@ -38,7 +41,10 @@ class ConfigPageView extends StatelessWidget {
         ),
         Scaffold(
           appBar: AppBar(
-            title: Text("Configuration of Matrix Game",style: TextStyle(color: Colors.white)),
+            title: Text("Configuration of Matrix Game",
+                style: TextStyle(color: Colors.white)
+            ),
+            backgroundColor: orange,
             centerTitle: true,
           ),
           backgroundColor: Colors.white,
@@ -49,7 +55,11 @@ class ConfigPageView extends StatelessWidget {
         ),
         Scaffold(
           appBar: AppBar(
-            title: Text("Configuration of Theme's Image",style: TextStyle(color: Colors.white)),
+            title: Text(
+                "Configuration of Theme's Image",
+                style: TextStyle(color: Colors.white)
+            ),
+            backgroundColor: orange,
             centerTitle: true,
           ),
           backgroundColor: Colors.white,

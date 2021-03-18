@@ -20,6 +20,17 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        inputDecorationTheme: InputDecorationTheme(
+          border: InputBorder.none,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderSide: BorderSide(color: Colors.black54),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderSide: BorderSide(color: Color(0xFFFF8306)),
+          ),
+        )
       ),
       debugShowCheckedModeBanner: false,
       home: Home(),

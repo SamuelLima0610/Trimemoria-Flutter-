@@ -25,6 +25,9 @@ class _OrganizationTagGameState extends State<OrganizationTagGame> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                SizedBox(
+                  height: 20.0,
+                ),
                 Form(
                     key: _stateForm,
                     child: Column(
@@ -33,7 +36,9 @@ class _OrganizationTagGameState extends State<OrganizationTagGame> {
                           controller: _nameController,
                           decoration: InputDecoration(
                               hintText: 'Name',
-                              labelStyle: TextStyle(color: Colors.blueAccent)
+                              hintStyle: TextStyle(
+                                  color: Color(0xFFFF8306)
+                              )
                           ),
                           // ignore: missing_return
                           validator: (value){
@@ -41,136 +46,179 @@ class _OrganizationTagGameState extends State<OrganizationTagGame> {
                           },
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 20.0,
                         ),
                         Card(
                           child: ExpansionTile(
-                              title: Text("Matrix's configuration"),
-                              leading: Icon(Icons.grid_on),
+                              title: Text(
+                                  "Matrix's configuration",
+                                  style: TextStyle(
+                                    color: Color(0xFFFF8306)
+                                  ),
+                              ),
+                              leading: Icon(
+                                  Icons.grid_on,
+                                  color: Color(0xFFFF8306),
+                              ),
                               children: [
-                                TextFormField(
-                                  onChanged: (value){
-                                    int change = int.parse(value);
-                                    int size = change * column;
-                                    setState(() {
-                                      row = change;
-                                      tags = List.filled(size, '');
-                                    });
-                                  },
-                                  initialValue: row.toString(),
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                      labelText: 'Rows',
-                                      labelStyle: TextStyle(color: Colors.blueAccent)
+                                Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: TextFormField(
+                                    cursorColor: Colors.white,
+                                    onChanged: (value){
+                                      int change = int.parse(value);
+                                      int size = change * column;
+                                      setState(() {
+                                        row = change;
+                                        tags = List.filled(size, '');
+                                      });
+                                    },
+                                    initialValue: row.toString(),
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                        labelText: 'Rows',
+                                        labelStyle: TextStyle(
+                                            color: Color(0xFFFF8306)
+                                        ),
+
+                                    ),
                                   ),
                                 ),
-                                TextFormField(
-                                  onChanged: (value){
-                                    int change = int.parse(value);
-                                    int size = change * row;
-                                    setState(() {
-                                      column = change;
-                                      tags = List.filled(size, '');
-                                    });
-                                  },
-                                  initialValue: column.toString(),
-                                  keyboardType: TextInputType.number,
-                                  decoration: InputDecoration(
-                                      labelText: 'Columns',
-                                      labelStyle: TextStyle(color: Colors.blueAccent)
+                                Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: TextFormField(
+                                    onChanged: (value){
+                                      int change = int.parse(value);
+                                      int size = change * row;
+                                      setState(() {
+                                        column = change;
+                                        tags = List.filled(size, '');
+                                      });
+                                    },
+                                    initialValue: column.toString(),
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                        labelText: 'Columns',
+                                        labelStyle: TextStyle(
+                                            color: Color(0xFFFF8306)
+                                        )
+                                    ),
                                   ),
                                 )
                               ],
                           ),
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 20.0,
                         ),
                         Card(
                           child: ExpansionTile(
-                            title: Text("Tag's configuration"),
-                            leading: Icon(Icons.credit_card),
-                            children: List<Widget>.generate(tags.length, (index){
-                              return TextFormField(
-                                initialValue:
-                                (column == 0 || row == 0) ? "" :tags[index],
-                                onChanged: (value){
-                                  tags[index] = value;
-                                },
-                                decoration: InputDecoration(
-                                    labelText: 'Tag',
-                                    labelStyle: TextStyle(color: Colors.blueAccent)
+                            title: Text(
+                                "Tag's configuration",
+                                style: TextStyle(
+                                  color: Color(0xFFFF8306)
                                 ),
-                                // ignore: missing_return
-                                validator: (value){
-                                  if(value.isEmpty) return "O campo deve ser preenchido";
-                                },
+                            ),
+                            leading: Icon(
+                                Icons.credit_card,
+                                color: Color(0xFFFF8306),
+                            ),
+                            children: List<Widget>.generate(tags.length, (index){
+                              return Padding(
+                                padding: EdgeInsets.all(5.0),
+                                child: TextFormField(
+                                  initialValue:
+                                  (column == 0 || row == 0) ? "" :tags[index],
+                                  onChanged: (value){
+                                    tags[index] = value;
+                                  },
+                                  decoration: InputDecoration(
+                                      labelText: 'Tag',
+                                      labelStyle: TextStyle(
+                                          color: Color(0xFFFF8306)
+                                      )
+                                  ),
+                                  // ignore: missing_return
+                                  validator: (value){
+                                    if(value.isEmpty) return "O campo deve ser preenchido";
+                                  },
+                                ),
                               );
                             }
                             ).toList(),
                           ),
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 20.0,
                         ),
                         SizedBox(
                           height: 45.0,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              RaisedButton(
-                                onPressed: () async {
-                                  int size = row * column;
-                                  if(_stateForm.currentState.validate() && size == tags.length){
-                                    Map<String,dynamic> data ={
-                                      "name": _nameController.text,
-                                      "qntd": size,
-                                      "configurationTag": toMap()
-                                    };
-                                    String answer = await model.insert(data: data);
-                                    final snackBar = SnackBar(
-                                      content: Text(
-                                          answer
-                                      ),
-                                      duration: Duration(seconds: 5),
-                                    );
-                                    Scaffold.of(context).showSnackBar(snackBar);
-                                  }
-                                },
-                                color: Colors.blueAccent,
-                                child: Text(
-                                    !model.toEdit() ? 'Salvar' : "Editar",
-                                    style: TextStyle(color: Colors.white,fontSize: 22.0)
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFFF8306),
+                                    borderRadius: BorderRadius.all(Radius.circular(16))
                                 ),
-                              ),
-                              RaisedButton(
-                                onPressed: () async {
-                                  if(!model.toEdit()){
-                                    setState(() {
-                                      _nameController.text = '';
-                                      column = 0;
-                                      row = 0;
-                                      tags = [];
-                                    });
-                                    model.refresh();
-                                  }else{
-                                    if(_stateForm.currentState.validate()) {
-                                      String answer = await model.destroy();
+                                child: TextButton(
+                                  onPressed: () async {
+                                    int size = row * column;
+                                    if(_stateForm.currentState.validate() && size == tags.length){
+                                      Map<String,dynamic> data ={
+                                        "name": _nameController.text,
+                                        "qntd": size,
+                                        "configurationTag": toMap()
+                                      };
+                                      String answer = await model.insert(data: data);
                                       final snackBar = SnackBar(
                                         content: Text(
                                             answer
                                         ),
                                         duration: Duration(seconds: 5),
                                       );
-                                      Scaffold.of(context).showSnackBar(
-                                          snackBar);
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                     }
-                                  }
-                                },
-                                color: Colors.blueAccent,
-                                child: Text(
-                                    model.toEdit() ? "Excluir" : 'Limpar',
-                                    style: TextStyle(color: Colors.white,fontSize: 22.0)
+                                  },
+                                  child: Text(
+                                      !model.toEdit() ? 'Salvar' : "Editar",
+                                      style: TextStyle(color: Colors.white,fontSize: 22.0)
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFFF8306),
+                                    borderRadius: BorderRadius.all(Radius.circular(16))
+                                ),
+                                child: TextButton(
+                                  onPressed: () async {
+                                    if(!model.toEdit()){
+                                      setState(() {
+                                        _nameController.text = '';
+                                        column = 0;
+                                        row = 0;
+                                        tags = [];
+                                      });
+                                      model.refresh();
+                                    }else{
+                                      if(_stateForm.currentState.validate()) {
+                                        String answer = await model.destroy();
+                                        final snackBar = SnackBar(
+                                          content: Text(
+                                              answer
+                                          ),
+                                          duration: Duration(seconds: 5),
+                                        );
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                            snackBar);
+                                      }
+                                    }
+                                  },
+                                  child: Text(
+                                      model.toEdit() ? "Excluir" : 'Limpar',
+                                      style: TextStyle(color: Colors.white,fontSize: 22.0)
+                                  ),
                                 ),
                               )
                             ],
@@ -178,6 +226,9 @@ class _OrganizationTagGameState extends State<OrganizationTagGame> {
                         )
                       ],
                     ),
+                ),
+                SizedBox(
+                  height: 20.0,
                 ),
                 FutureBuilder(
                     future: model.getList(),

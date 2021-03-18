@@ -7,7 +7,6 @@ import 'package:trimemoria/back/back.dart';
 import 'package:trimemoria/models/DataModel.dart';
 import 'package:path/path.dart';
 
-
 class ThemesImages extends StatefulWidget {
   @override
   _ThemesImagesState createState() => _ThemesImagesState();
@@ -32,6 +31,9 @@ class _ThemesImagesState extends State<ThemesImages> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
+                  SizedBox(
+                    height: 10.0,
+                  ),
                   Form(
                     key: _stateForm,
                     child: Column(
@@ -40,8 +42,10 @@ class _ThemesImagesState extends State<ThemesImages> {
                         TextFormField(
                           controller: _groupController,
                           decoration: InputDecoration(
-                              labelText: 'Group',
-                              labelStyle: TextStyle(color: Colors.blueAccent)
+                              hintText: 'Group',
+                              hintStyle: TextStyle(
+                                  color: Color(0xFFFF8306)
+                              )
                           ),
                           // ignore: missing_return
                           validator: (value){
@@ -49,32 +53,54 @@ class _ThemesImagesState extends State<ThemesImages> {
                           },
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 20.0,
                         ),
                         FutureBuilder(
-                            future: Back.getData('https://rest-api-trimemoria.herokuapp.com/theme'),
+                            future: Back.getData('https://rest-api-trimemoria.herokuapp.com/config/themes'),
                             builder: (context, snapshot){
                               if(snapshot.hasData) {
                                 if(!model.toEdit() && first){
                                   first = false;
                                   value = snapshot.data['data'][0]['name'];
                                 }
-                                return DropdownButton<String>(
-                                    value: value,
-                                    elevation: 1,
-                                    items:
-                                    snapshot.data['data'].map<
-                                        DropdownMenuItem<String>>((v) {
-                                      return DropdownMenuItem<String>(
-                                          value: v['name'],
-                                          child: Text(v['name'])
-                                      );
-                                    }).toList(),
-                                    onChanged: (newValue) {
-                                      setState(() {
-                                        value = newValue;
-                                      });
-                                    }
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 15.0,
+                                        horizontal: 15.0
+                                    ),
+                                    decoration: BoxDecoration(
+                                        color: Color(0xFFFF8306),
+                                        borderRadius: BorderRadius.circular(15)
+                                    ),
+                                    child: DropdownButton<String>(
+                                        underline: SizedBox(),
+                                        icon: Icon(Icons.arrow_drop_down),
+                                        dropdownColor: Color(0xFFFF8306),
+                                        iconSize: 36.0,
+                                        isExpanded: true,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20.0
+                                        ),
+                                        value: value,
+                                        elevation: 1,
+                                        items:
+                                        snapshot.data['data'].map<
+                                            DropdownMenuItem<String>>((v) {
+                                          return DropdownMenuItem<String>(
+                                              value: v['name'],
+                                              child: Text(v['name'])
+                                          );
+                                        }).toList(),
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            value = newValue;
+                                          });
+                                        }
+                                    ),
+                                  ),
                                 );
                               }
                               else
@@ -82,11 +108,21 @@ class _ThemesImagesState extends State<ThemesImages> {
                             }
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 20.0,
                         ),
                         ListTile(
-                            leading: Icon(Icons.photo_library),
-                            title: Text( !model.toEdit() ? 'Adicionar Imagem': 'Alterar Imagem'),
+                            leading: Icon(
+                                Icons.photo_library,
+                                color: Color(0xFFFF8306),
+                            ),
+                            title: Text(
+                                !model.toEdit() ?
+                                'Adicionar Imagem':
+                                'Alterar Imagem',
+                                style: TextStyle(
+                                  color: Color(0xFFFF8306)
+                                ),
+                            ),
                             onTap: () {
                               _imgFromGallery();
                             }),
@@ -112,79 +148,89 @@ class _ThemesImagesState extends State<ThemesImages> {
                           ),
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 20.0,
                         ),
                         SizedBox(
                           height: 45.0,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              RaisedButton(
-                                onPressed: () async {
-                                  String path = '';
-                                  String url = '';
-                                  if(_stateForm.currentState.validate() && value != '' && _image != null){
-                                    String filename = basename(_image.path);
-                                    path = "$value/$filename";
-                                    if(model.toEdit())
-                                      await Back.deleteImageStorage(_path);
-                                    url = await Back.sendImageStorage(path, _image);
-                                  }
-                                  else if(_stateForm.currentState.validate() && value != ''){
-                                    path = _path;
-                                    url = _url;
-                                  }
-                                  if(path != '' && url != '' && _image != null){
-                                    Map<String,dynamic> data ={
-                                      "group": _groupController.text,
-                                      "theme": value,
-                                      "url": url,
-                                      "path": path
-                                    };
-                                    String answer = await model.insert(data: data);
-                                    final snackBar = SnackBar(
-                                      content: Text(
-                                          answer
-                                      ),
-                                      duration: Duration(seconds: 5),
-                                    );
-                                    Scaffold.of(context).showSnackBar(snackBar);
-                                  }
-                                },
-                                color: Colors.blueAccent,
-                                child: Text(
-                                    !model.toEdit() ? 'Salvar' : "Editar",
-                                    style: TextStyle(color: Colors.white,fontSize: 22.0)
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFFF8306),
+                                    borderRadius: BorderRadius.all(Radius.circular(16))
                                 ),
-                              ),
-                              RaisedButton(
-                                onPressed: () async {
-                                  if(!model.toEdit()){
-                                    setState(() {
-                                      _groupController.text = '';
-                                      first = true;
-                                      _image = null;
-                                    });
-                                    model.refresh();
-                                  }else{
-                                    if(_stateForm.currentState.validate()) {
-                                      String answer = await model.destroy();
-                                      await Back.deleteImageStorage(_path);
+                                child: TextButton(
+                                  onPressed: () async {
+                                    String path = '';
+                                    String url = '';
+                                    if(_stateForm.currentState.validate() && value != '' && _image != null){
+                                      String filename = basename(_image.path);
+                                      path = "$value/$filename";
+                                      if(model.toEdit())
+                                        await Back.deleteImageStorage(_path);
+                                      url = await Back.sendImageStorage(path, _image);
+                                    }
+                                    else if(_stateForm.currentState.validate() && value != ''){
+                                      path = _path;
+                                      url = _url;
+                                    }
+                                    if(path != '' && url != '' && _image != null){
+                                      Map<String,dynamic> data ={
+                                        "group": _groupController.text,
+                                        "theme": value,
+                                        "url": url,
+                                        "path": path
+                                      };
+                                      String answer = await model.insert(data: data);
                                       final snackBar = SnackBar(
                                         content: Text(
                                             answer
                                         ),
                                         duration: Duration(seconds: 5),
                                       );
-                                      Scaffold.of(context).showSnackBar(
-                                          snackBar);
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                                     }
-                                  }
-                                },
-                                color: Colors.blueAccent,
-                                child: Text(
-                                    model.toEdit() ? "Excluir" : 'Limpar',
-                                    style: TextStyle(color: Colors.white,fontSize: 22.0)
+                                  },
+                                  child: Text(
+                                      !model.toEdit() ? 'Salvar' : "Editar",
+                                      style: TextStyle(color: Colors.white,fontSize: 22.0)
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFFF8306),
+                                  borderRadius: BorderRadius.all(Radius.circular(16))
+                                ),
+                                child: TextButton(
+                                  onPressed: () async {
+                                    if(!model.toEdit()){
+                                      setState(() {
+                                        _groupController.text = '';
+                                        first = true;
+                                        _image = null;
+                                      });
+                                      model.refresh();
+                                    }else{
+                                      if(_stateForm.currentState.validate()) {
+                                        String answer = await model.destroy();
+                                        await Back.deleteImageStorage(_path);
+                                        final snackBar = SnackBar(
+                                          content: Text(
+                                              answer
+                                          ),
+                                          duration: Duration(seconds: 5),
+                                        );
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                            snackBar);
+                                      }
+                                    }
+                                  },
+                                  child: Text(
+                                      model.toEdit() ? "Excluir" : 'Limpar',
+                                      style: TextStyle(color: Colors.white,fontSize: 22.0)
+                                  ),
                                 ),
                               )
                             ],
@@ -192,6 +238,9 @@ class _ThemesImagesState extends State<ThemesImages> {
                         )
                       ],
                     ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
                   ),
                   FutureBuilder(
                       future: model.getList(),
@@ -218,6 +267,7 @@ class _ThemesImagesState extends State<ThemesImages> {
   }
 
   _imgFromGallery() async {
+    // ignore: deprecated_member_use
     File image = await  ImagePicker.pickImage(
         source: ImageSource.gallery, imageQuality: 50
     );

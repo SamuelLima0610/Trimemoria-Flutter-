@@ -36,8 +36,8 @@ class _ThemeGameState extends State<ThemeGame> {
                           controller: _nameController,
                           decoration: InputDecoration(
                               hintText: 'Nome',
-                              labelStyle: TextStyle(
-                                  color: Colors.orange,
+                              hintStyle: TextStyle(
+                                  color: Color(0xFFFF8306),
                               )
                           ),
                           // ignore: missing_return
@@ -52,7 +52,9 @@ class _ThemeGameState extends State<ThemeGame> {
                           controller: _qntController,
                           decoration: InputDecoration(
                               hintText: 'Quantidade',
-                              labelStyle: TextStyle(color: Colors.blueAccent)
+                              hintStyle: TextStyle(
+                                  color: Color(0xFFFF8306)
+                              )
                           ),
                           // ignore: missing_return
                           validator: (value){
@@ -133,6 +135,9 @@ class _ThemeGameState extends State<ThemeGame> {
                         )
                       ],
                     ),
+                  ),
+                  SizedBox(
+                    height: 7.0,
                   ),
                   FutureBuilder(
                       future: model.getList(),
