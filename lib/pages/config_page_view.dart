@@ -19,7 +19,7 @@ class ConfigPageView extends StatelessWidget {
       children: <Widget>[
         Scaffold(
           appBar: AppBar(
-            title: Text("Theme",style: TextStyle(color: Colors.white),),
+            title: Text("Temas",style: TextStyle(color: Colors.white),),
             centerTitle: true,
             backgroundColor: orange,
           ),

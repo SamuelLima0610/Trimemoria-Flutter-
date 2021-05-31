@@ -21,14 +21,14 @@ class Home extends StatelessWidget {
                       color: Color(0xFFFF8306),
                       decoration: TextDecoration.none
                   ),
-                ),
+                )/*,
                 Text(
                   "Lenda",
                   style: TextStyle(
                     decoration: TextDecoration.none,
                     color: Color(0xFFFF8306),
                   ),
-                )
+                )*/
               ],
             ),
             Wrap(

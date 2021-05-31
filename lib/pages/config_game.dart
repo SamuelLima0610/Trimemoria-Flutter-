@@ -20,7 +20,7 @@ class _ConfigGameState extends State<ConfigGame> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Configure Game"),
+        title: Text("Configurar jogo"),
         centerTitle: true,
         backgroundColor: Color(0xFFFF8306),
       ),
@@ -155,7 +155,7 @@ class _ConfigGameState extends State<ConfigGame> {
                         style: TextStyle(color: Colors.white,fontSize: 25.0),
                       ),
                       onPressed: () async {
-                        Map<String,dynamic> theme = await Back.getData("https://rest-api-trimemoria.herokuapp.com/theme/image/${this.theme}");
+                        Map<String,dynamic> theme = await Back.getData("https://rest-api-trimemoria.herokuapp.com/config/image/imageTheme/theme/${this.theme}");
                         Map<String,dynamic> configuration = _configs.firstWhere((element) => element["name"] == this.config);
                         if(theme.keys.contains("data")){
                           if(configuration["configurationTag"].length == theme["data"].length){

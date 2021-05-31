@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:trimemoria/pages/design.dart';
 import 'package:trimemoria/pages/home.dart';
 
-void main() {
+Future main() async {
+  //método para garantir que os widgets tenham sido construidos para poder fazer
+  //a mudança de orientação
+  WidgetsFlutterBinding.ensureInitialized();
+  //coloca a orientação para landscape
+  await SystemChrome.setEnabledSystemUIOverlays([]);
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight
+  ]);
   runApp(MyApp());
 }
 

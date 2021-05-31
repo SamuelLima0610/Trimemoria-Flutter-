@@ -10,7 +10,7 @@ import 'package:socket_io_client/socket_io_client.dart';
 
 // STEP1:  Stream setup
 class StreamSocket{
-  final _socketResponse= StreamController<int>();
+  final _socketResponse = StreamController<int>();
 
   void Function(int) get addResponse => _socketResponse.sink.add;
 
@@ -39,14 +39,28 @@ class _GameState extends State<Game> {
   Map<String,dynamic> config;
   IO.Socket socket;
   List cards;
+  StreamSocket streamSocket = StreamSocket();
 
   _GameState(this.theme,this.config);
+
+  @override
+  void initState() {
+    connectAndListen();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    streamSocket.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Game"),
+        backgroundColor: Color(0xFFFF8306),
+        title: Text("Trimemória"),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -67,16 +81,30 @@ class _GameState extends State<Game> {
           model.onTap(card);
         },
         child: Container(
-          child: Image.network(
-            "https://picsum.photos/500/300?image=0",
+          decoration: BoxDecoration(
+              border: Border.all(
+                  color: Color(0xFFFF8306),
+                  width: 3.0
+              ),
+              borderRadius: BorderRadius.circular(5.0)
+          ),
+          child: Image.asset(
+            "assets/images/sun.png",
             fit: BoxFit.cover,
           ),
         ),
       ),
       back: Container(
+        decoration: BoxDecoration(
+            border: Border.all(
+                color: Color(0xFFFF8306),
+                width: 2.0
+            ),
+            borderRadius: BorderRadius.circular(5.0),
+        ),
         child: Image.network(
-          card["href"],
-          fit: BoxFit.cover,
+          card["url"],
+          fit: BoxFit.fitWidth,
         ),
       ),
     );
@@ -84,7 +112,7 @@ class _GameState extends State<Game> {
 
   Widget displayGame(){
     return FutureBuilder(
-        future: Back.getData('https://rest-api-trimemoria.herokuapp.com/theme/image/${theme}'),
+        future: Back.getData('https://rest-api-trimemoria.herokuapp.com/config/image/imageTheme/theme/${theme}'),
         builder: (context,snapshot){
           if(snapshot.hasData){
             cards = snapshot.data['data'].map((v){
@@ -94,26 +122,32 @@ class _GameState extends State<Game> {
               return v;
             }).toList();
             String coordMatrix = getLastCoordinate(config["configurationTag"]);
-            int row = int.parse(coordMatrix.substring(0,1));
-            //int column = int.parse(coordMatrix.substring(1));
+            //int row = int.parse(coordMatrix.substring(0,1));
+            int column = int.parse(coordMatrix.substring(1));
             return ScopedModel<GameModel>(
                 model: GameModel(cards: cards,),
                 child: ScopedModelDescendant<GameModel>(
                     builder: (context, child, model){
                       return StreamBuilder(
-                        stream: streamSocket.getResponse ,
+                        stream: streamSocket.getResponse,
                         builder: (context,snapshot){
                           if(snapshot.hasData){
                             Map<String,dynamic> card = model.cards.elementAt(snapshot.data);
                             model.onTap(card);
                           }
                           return GridView.count(
-                            crossAxisCount: row,
-                            childAspectRatio: 0.85,
+                            crossAxisCount: column,
+                            //childAspectRatio: 0.85,
                             crossAxisSpacing: 20,
                             mainAxisSpacing: 20,
                             children: model.cards.map((card){
-                              return displayCard(card, model);
+                              return Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 5.0,
+                                      vertical: 5.0
+                                  ),
+                                  child: displayCard(card, model)
+                              );
                             }).toList(),
                           );
                         },
@@ -145,7 +179,7 @@ class _GameState extends State<Game> {
       int index = 0;
       display.forEach((element) {
         Map<String,dynamic> map = element;
-        if(map.values.first.toString() == data["tag"]){
+        if(map.values.first.toString() == data["detectedData"]){
           streamSocket.addResponse(index);
         }
         index++;
@@ -159,15 +193,4 @@ class _GameState extends State<Game> {
     return configTags.last.keys.first.toString();
   }
 
-  @override
-  void initState() {
-    connectAndListen();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    streamSocket.dispose();
-    super.dispose();
-  }
 }
