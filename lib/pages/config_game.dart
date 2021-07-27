@@ -136,7 +136,11 @@ class _ConfigGameState extends State<ConfigGame> {
                       );
                     }
                     else
-                      return Container();
+                      return Center(
+                        child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFF8306))
+                        ),
+                      );
                   }
               ),
               SizedBox(

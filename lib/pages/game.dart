@@ -6,6 +6,8 @@ import 'package:trimemoria/back/back.dart';
 import 'package:trimemoria/models/gameModel.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart';
+import 'package:trimemoria/pages/config_game.dart';
+import 'package:trimemoria/pages/home.dart';
 
 
 // STEP1:  Stream setup
@@ -79,7 +81,37 @@ class _GameState extends State<Game> {
       front: InkWell(
         onTap: (){
           model.onTap(card);
-        },
+          int founded = cards.where((element) => element["isFlip"] == true).toList().length;
+          if(founded == cards.length){
+            Future.delayed(Duration(seconds: 2)).then((value) {
+              showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: const Text('Parabéns!!!!'),
+                    content: const Text('Deseja jogar mais uma partida?'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => Home()
+                            )
+                        ),
+                        child: const Text('Inicio'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => ConfigGame()
+                            )
+                        ),
+                        child: const Text('Mais uma partida!!!'),
+                      ),
+                    ],
+                  )
+              );
+            });
+          }
+          },
         child: Container(
           decoration: BoxDecoration(
               border: Border.all(

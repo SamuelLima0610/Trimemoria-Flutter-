@@ -7,8 +7,15 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class Back {
 
+  static String key = "pyzdQxKCneRl";
+
   static Future<Map> getData(String url) async {
-    http.Response response = await http.get(url);
+    http.Response response = await http.get(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $key',
+        },
+    );
     return json.decode(response.body);
   }
 

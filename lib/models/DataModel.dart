@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
@@ -9,6 +11,7 @@ class DataModel extends Model {
   bool edit = false; // 0 - save 1 - edit
   String _url;
   Map<String,dynamic> information = null;
+  String key = "pyzdQxKCneRl";
 
   DataModel(this._url);
 
@@ -29,7 +32,6 @@ class DataModel extends Model {
           data
       );
     }
-    print(resp.body);
     Map map = json.decode(resp.body);
     refresh();
     return map['data'];
@@ -46,7 +48,13 @@ class DataModel extends Model {
   }
 
   Future<Map> _getData() async {
-    http.Response response = await http.get(_url);
+    http.Response response = await http.get(
+        Uri.parse(_url),
+        // Send authorization headers to the backend.
+        headers: {
+          HttpHeaders.authorizationHeader: 'Bearer $key',
+        },
+    );
     return json.decode(response.body);
   }
 
@@ -56,6 +64,7 @@ class DataModel extends Model {
         _url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $key',
         },
         body: json.encode(data),
       );
@@ -67,6 +76,7 @@ class DataModel extends Model {
           information['_links'][1]['href'],
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Bearer $key',
           },
           body: json.encode(data),
         );
@@ -76,13 +86,21 @@ class DataModel extends Model {
   }
 
   Future<Map> _getDataById(int id) async {
-    http.Response response = await http.get('${_url}/${id}');
+    http.Response response = await http.get(
+        '${_url}/${id}',
+        headers: {
+          'Authorization': 'Bearer $key'
+        }
+    );
     return json.decode(response.body);
   }
 
   Future<http.Response> _destroy(){
     return http.delete(
-        information['_links'][0]['href']
+        information['_links'][0]['href'],
+        headers: {
+          'Authorization': 'Bearer $key'
+        }
     );
   }
 

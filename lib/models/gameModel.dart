@@ -24,14 +24,14 @@ class GameModel extends Model{
       cardsFlip++;
       GlobalKey<FlipCardState> cardKey = card["keyFlip"];
       cardKey.currentState.toggleCard();
-      if(cardsFlip == 2){
-        Future.delayed(Duration(seconds: 5)).then((value){
+      if(cardsFlip == 3){
+        Future.delayed(Duration(seconds: 2)).then((value){
           List equals = selectedCards.where((element) =>
                                                element["group"]
                                                 .toString()
                                                 .compareTo(selectedCards[0]["group"]
                                                 .toString()) == 0).toList();
-          if(equals.length != 2){
+          if(equals.length != 3){
             selectedCards.forEach((card){
               GlobalKey<FlipCardState> cardKey = card["keyFlip"];
               cardKey.currentState.toggleCard();
